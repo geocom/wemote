@@ -44,18 +44,16 @@ module Wemote
 
       def discover
         ip = UDPSocket.open {|s| s.connect(GOOGLE_IP, 1); s.addr.last}
-        #`nmap -sP #{ip.split('.')[0..-2].join('.')}.* > /dev/null && arp -na | grep 14:91:82:05:A2:95`.split("\n").map do |device|
+        #`nmap -sP #{ip.split('.')[0..-2].join('.')}.* > /dev/null && arp -na | grep b4:75`.split("\n").map do |device|
        nmap_results = `nmap -sP #{ip.split('.')[0..-2].join('.')}.*`.split("\n")
-       wemo_results = []
        nmap_results.each_with_index do |device, index|
         	if device.include?("Belkin International")
         		remote_address = nmap_results[index - 2].split("(").last.split(")").first
-        		wemo_results << remote_address
+        		
+        		self.new(remote_address)
+        		self.new(/\((\d+\.\d+\.\d+\.\d+)\)/.match(remote_address))
         	end
-        end
-        return wemo_results
-        #  self.new(/\((\d+\.\d+\.\d+\.\d+)\)/.match(device)[1])
-        #end.reject{|device| device.instance_variable_get(:@port).nil? }
+        end.reject{|remote_address| remote_address.instance_variable_get(:@port).nil? }
       end
     end
 
