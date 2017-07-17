@@ -50,7 +50,7 @@ module Wemote
        nmap_results.each_with_index do |device, index|
         	if device.include?("Belkin International")
         		remote_address = nmap_results[index - 2].split("(").last.split(")").first
-        		wemo_results << self.new(remote_address)
+        		wemo_results << remote_address
         	end
         end
         return wemo_results
