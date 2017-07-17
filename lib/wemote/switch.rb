@@ -48,7 +48,7 @@ module Wemote
        nmap_results = `nmap -sP #{ip.split('.')[0..-2].join('.')}.*`.split("\n")
        nmap_results.each_with_index do |device, index|
         	if device.include?("Belkin International")
-        		remote_address = nmap_results[index + 1].split("(").last.split(")").first
+        		remote_address = nmap_results[index - 2].split("(").last.split(")").first
         		
         		self.new(remote_address)
         	end
