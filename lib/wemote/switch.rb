@@ -30,6 +30,7 @@ module Wemote
       def all(refresh=false)
         @switches = nil if refresh
         @switches ||= Wemote::Collection::Switch.new(discover)
+        return @switches
       end
 
       # Returns a Switch of a given name
